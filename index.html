@@ -5,40 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admission Form</title>
     <script>
-        function validateForm() {
+        function validatePRN() {
             let prn = document.getElementById("prn").value;
-            let prnRegex = /^[0-9]{1,12}$/;
+            let prnField = document.getElementById("prn");
+            let prnError = document.getElementById("prnError");
             
-            if (!prnRegex.test(prn)) {
-                alert("PRN No. must be a number and should not exceed 12 digits.");
-                return false;
+            if (!/^[0-9]{1,12}$/.test(prn)) {
+                prnError.textContent = "PRN No. must be a number with a maximum of 12 digits.";
+                prnField.style.border = "2px solid red";
+            } else {
+                prnError.textContent = "";
+                prnField.style.border = "";
             }
-            
-            return true;
         }
-        
+
         function convertToUppercase() {
             let nameField = document.getElementById("name");
             nameField.value = nameField.value.toUpperCase();
         }
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
     <h2>Admission Form</h2>
-    <form onsubmit="return validateForm()">
-        <label for="prn">PRN No.:</label>
-        <input type="text" id="prn" name="prn" required><br><br>
-        
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" onkeyup="convertToUppercase()" required><br><br>
-        
-        <label for="class">Class:</label>
-        <input type="text" id="class" name="class" required><br><br>
-        
-        <label for="qualification">Previous Qualification:</label>
-        <input type="text" id="qualification" name="qualification" required><br><br>
-        
-        <input type="submit" value="Submit">
+    <form>
+        <div class="form-group">
+            <label for="prn">PRN No.:</label>
+            <input type="text" id="prn" name="prn" maxlength="12" oninput="validatePRN()" required>
+            <span class="error" id="prnError"></span>
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" onkeyup="convertToUppercase()" required>
+        </div>
+        <div class="form-group">
+            <label for="class">Class:</label>
+            <select id="class" name="class" required>
+                <option value="">Select Class</option>
+                <option value="FY">FY</option>
+                <option value="SY">SY</option>
+                <option value="TY">TY</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="qualification">Previous Qualification:</label>
+            <input type="text" id="qualification" name="qualification" required>
+        </div>
+        <button type="submit">Submit</button>
     </form>
 </body>
 </html>
